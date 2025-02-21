@@ -5,20 +5,24 @@ import uvicorn
 
 app = FastAPI()
 
-class RequestModel(BaseModel):
+class DataRequest(BaseModel):
     data: List[str]
 
 @app.post("/bfhl")
-async def process_data(request: RequestModel):
+def process_data(request: DataRequest):
+    user_id = "22BDA70168"
+    email = "shubhamsourav475@gmail.com"
+    roll_number = "70168"
+    
     numbers = [item for item in request.data if item.isdigit()]
     alphabets = [item for item in request.data if item.isalpha()]
-    highest_alphabet = [max(alphabets, key=str.lower)] if alphabets else []
-
+    highest_alphabet = [max(alphabets, key=str.upper)] if alphabets else []
+    
     response = {
         "is_success": True,
-        "user_id": "shubham_sourav_21042003",
-        "email": "shubham@example.com",
-        "roll_number": "CU12345",
+        "user_id": user_id,
+        "email": email,
+        "roll_number": roll_number,
         "numbers": numbers,
         "alphabets": alphabets,
         "highest_alphabet": highest_alphabet
@@ -26,7 +30,7 @@ async def process_data(request: RequestModel):
     return response
 
 @app.get("/bfhl")
-async def get_operation_code():
+def get_operation_code():
     return {"operation_code": 1}
 
 if __name__ == "__main__":
